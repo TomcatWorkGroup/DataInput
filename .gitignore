@@ -1,0 +1,5 @@
+DataInput/DeviceDataInputApp/bin
+DataInput/DeviceDataInputApp/obj
+DataInput/DeviceDataInputApp/wwwroot
+.vs/
+packages/
