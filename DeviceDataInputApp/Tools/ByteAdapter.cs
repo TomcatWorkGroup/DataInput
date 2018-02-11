@@ -27,7 +27,7 @@ namespace DeviceDataInputApp.Tools
                 {
                     if (battr.Length == 1)
                     {
-                        num = data[battr.StartIndex] << 8;
+                        num = data[battr.StartIndex];
                     }
                     else
                     {

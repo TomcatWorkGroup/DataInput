@@ -23,6 +23,59 @@ namespace DeviceDataInputApp.Entities
         {
             this.deviceNo = deviceNo;
         }
+        //运行状态
+        public int runstatus;
+
+        /**
+         * 获取运行状态
+         *
+         * @return power
+         */
+        public int getRunstatus()
+        {
+            return runstatus;
+        }
+
+        [Attributes.Byte(StartIndex = 20, Length = 1)]
+        public void setRunstatus(int data)
+        {
+            runstatus = data;
+        }
+
+        public int power;
+        public int getPower()
+        {
+            return power;
+        }
+        [Attributes.Byte(StartIndex = 25, Length = 1)]
+        public void setPower(int data)
+        {
+            power = data;
+        }
+
+        public int media;
+
+        /**
+         * 获取介质类型
+         *
+         * @return power
+         */
+        public int getMedia()
+        {
+            return media;
+        }
+
+        /**
+         * 设置介质类型
+         *
+         * @param data
+         */
+        [Attributes.Byte(StartIndex = 26, Length = 1)]
+        public void setMedia(int data)
+        {
+            media = data;
+        }
+
         public string nickName;
         public string getNickName()
         {
