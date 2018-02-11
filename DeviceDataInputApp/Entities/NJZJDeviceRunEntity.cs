@@ -41,7 +41,30 @@ namespace DeviceDataInputApp.Entities
         {
             runstatus = data;
         }
-
+        #region ----------设备运行时间(运行状态)----------
+        //设备运行天数
+        public int rundays;
+        //设备运行小时数
+        public int runhours;
+        public int getRunDays()
+        {
+            return rundays;
+        }
+        [Attributes.Byte(StartIndex = 21, Length = 2)]
+        public void setRunDays(int runDays)
+        {
+            this.rundays = runDays;
+        }
+        public int getRunHours()
+        {
+            return runhours;
+        }
+        [Attributes.Byte(StartIndex = 23, Length = 2)]
+        public void setRunHours(int runHours)
+        {
+            this.runhours = runHours;
+        }
+        #endregion
         public int power;
         public int getPower()
         {
@@ -86,30 +109,7 @@ namespace DeviceDataInputApp.Entities
         {
             this.nickName = nickName;
         }
-        #region ----------设备运行时间(运行状态)----------
-        //设备运行天数
-        public int runDays;
-        //设备运行小时数
-        public int runHours;
-        public int getRunDays()
-        {
-            return runDays;
-        }
-        [Attributes.Byte(StartIndex = 22, Length = 2)]
-        public void setRunDays(int runDays)
-        {
-            this.runDays = runDays;
-        }
-        public int getRunHours()
-        {
-            return runHours;
-        }
-        [Attributes.Byte(StartIndex = 24, Length = 2)]
-        public void setRunHours(int runHours)
-        {
-            this.runHours = runHours;
-        }
-        #endregion
+       
         #region ----------设备报警信息相关属性(运行状态)----------
         //排烟温度高
         public int paiyanwendugao;
