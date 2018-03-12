@@ -61,11 +61,16 @@ namespace DeviceDataInputApp.Controllers
                     HostName = config.HostName,
                     Port = config.Port
                 };
-                IConnection conn = factory.CreateConnection();
-                IModel channel = conn.CreateModel();
-                var messageBodyBytes = Encoding.UTF8.GetBytes(json);
-                channel.BasicPublish(config.Exchange, config.RoutingKey, true, null, messageBodyBytes);
-                channel.Close();
+                using (IConnection conn = factory.CreateConnection())
+                {
+                    using (IModel channel = conn.CreateModel())
+                    {
+
+                        var messageBodyBytes = Encoding.UTF8.GetBytes(json);
+                    channel.BasicPublish(config.Exchange, config.RoutingKey, true, null, messageBodyBytes);
+
+                    }
+                }
             }
             catch (Exception ex)
             {
