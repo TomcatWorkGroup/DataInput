@@ -17,6 +17,7 @@ namespace DeviceDataInputApp.Controllers
         public IActionResult Get()
         {
             ViewBag.Data = DATA;
+            ViewBag.Json = DeviceController.JSON;
             return View("Input");
         }
 

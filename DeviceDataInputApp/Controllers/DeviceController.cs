@@ -14,6 +14,14 @@ namespace DeviceDataInputApp.Controllers
 {
     public class DeviceController : Controller
     {
+        public static string JSON;
+        static Dictionary<string, string> map = new Dictionary<string, string>() {
+            { "NJZJ0000000000012345","郑州市动物园锅炉1"},
+            { "NJZJ0000000000012346","郑州市动物园锅炉2"},
+            { "NJZJ0000000000012347","郑州市动物园锅炉3"},
+            { "NJZJ0000000000012348","南京试验机"},
+            { "NJZJ0000000000012349","山东试验机"}
+        };
         public RabbitMQSetting config;
         private ILog log;
 
@@ -32,17 +40,22 @@ namespace DeviceDataInputApp.Controllers
                 byte[] bt = new byte[1024];
                 int length = Request.Body.Read(bt, 0, bt.Length);
                 string deviceNo = Encoding.ASCII.GetString(bt, 0, 20).ToString().Trim();
-                Dictionary<string, string> dictionary = Application<DeviceCollectionEntity>.DictionaryList;
-                if (null == dictionary)
-                {
-                    return;
-                }
+                //Dictionary<string, string> dictionary = Application<DeviceCollectionEntity>.DictionaryList;
+                //if (null == dictionary)
+                //{
+                //    return;
+                //}
                 //*************************************************************              
-                if (!dictionary.ContainsKey(deviceNo))               
+                //if (!dictionary.ContainsKey(deviceNo))               
+                //{
+                //    return;
+                //}
+                //string _nickName = dictionary[deviceNo];
+                if (!map.ContainsKey(deviceNo))
                 {
                     return;
                 }
-                string _nickName = dictionary[deviceNo];
+                string _nickName = map[deviceNo];
                 //*********************************************************
                 JsonSerializerSettings settings = new JsonSerializerSettings
                 {
@@ -65,7 +78,7 @@ namespace DeviceDataInputApp.Controllers
                 {
                     using (IModel channel = conn.CreateModel())
                     {
-
+                        JSON = json;
                         var messageBodyBytes = Encoding.UTF8.GetBytes(json);
                     channel.BasicPublish(config.Exchange, config.RoutingKey, true, null, messageBodyBytes);
 
