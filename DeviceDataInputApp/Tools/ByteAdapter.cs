@@ -23,7 +23,7 @@ namespace DeviceDataInputApp.Tools
                     continue;
                 }
                 Attributes.ByteAttribute battr = attr as Attributes.ByteAttribute;
-                if (battr.StartIndex > dataByteStartIndex)
+                if (battr.StartIndex >= dataByteStartIndex)
                 {
                     if (battr.Length == 1)
                     {
