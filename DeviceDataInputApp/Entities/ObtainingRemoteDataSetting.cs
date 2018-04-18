@@ -4,6 +4,7 @@
     {
         public const string SectionName = "ObtainingRemoteDataSetting";
         public string URL { get; set; }
-        public int Timing { get; set; }
+        private int interval;
+        public int Timing { get { return interval; } set { interval = value * 1000; } }
     }
 }

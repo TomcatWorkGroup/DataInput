@@ -16,16 +16,20 @@ namespace DeviceDataInputApp.Tools
     /// </summary>
     public class ObtainingRemoteData : IJob
     {
+        /// <summary>
+        /// 远程数据请求地址
+        /// </summary>
+        public static string REQUEST_URL;
         private ILog log;
         public ObtainingRemoteData()
         {
             log = LogManager.GetLogger(Startup.repository.Name, typeof(ObtainingRemoteData));
-        }      
+        }
         //异步操作
         public async Task Execute(IJobExecutionContext context)
         {
-            this.GetDeviceCollectionData();
-            await Console.Out.WriteLineAsync("Start Obtain URL Data Job" + DateTime.Now.ToString("yyyyMMddHHmmss"));
+            Console.Out.WriteLine("触发定时任务..............");
+            await new Task(() => { GetDeviceCollectionData(); });
         }
         /// <summary>
         /// 获取远程请求设备名称数据集
@@ -34,29 +38,23 @@ namespace DeviceDataInputApp.Tools
         {
             try
             {
-                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(Application<object>.URL);
+                HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(REQUEST_URL);
                 webRequest.Method = "GET";
                 HttpWebResponse webResponse = (HttpWebResponse)webRequest.GetResponse();
                 StreamReader sr = new StreamReader(webResponse.GetResponseStream(), Encoding.UTF8);
                 var jsonText = sr.ReadToEnd();
-                IList<DeviceCollectionEntity> list;
-                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<DeviceCollectionEntity>));
+                DataContractJsonSerializer serializer = new DataContractJsonSerializer(typeof(List<DeviceSnapshot>));
                 using (MemoryStream ms = new MemoryStream(Encoding.UTF8.GetBytes(jsonText)))
                 {
-                    list = (List<DeviceCollectionEntity>)serializer.ReadObject(ms);
+                    var list = (List<DeviceSnapshot>)serializer.ReadObject(ms);
+                    ApplicationDeviceData.InitDevice(list);
                 }
-                Dictionary<string, string> dictionary = new Dictionary<string,string>();
-                foreach (DeviceCollectionEntity model in list)
-                {
-                    dictionary.Add(model.deviceNo,model.nickName);
-                }
-                Application<DeviceCollectionEntity>.DictionaryList = dictionary;
             }
             catch (Exception ex)
             {
-                var error = ex.Message;//测试=》获取程序错误的信息
                 log.Info(ex.ToString());
             }
         }
+
     }
 }

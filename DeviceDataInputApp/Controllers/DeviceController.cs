@@ -15,13 +15,6 @@ namespace DeviceDataInputApp.Controllers
     public class DeviceController : Controller
     {
         public static string JSON;
-        static Dictionary<string, string> map = new Dictionary<string, string>() {
-            { "NJZJ0000000000012345","郑州市动物园锅炉1"},
-            { "NJZJ0000000000012346","郑州市动物园锅炉2"},
-            { "NJZJ0000000000012347","郑州市动物园锅炉3"},
-            { "NJZJ0000000000012348","南京试验机"},
-            { "NJZJ0000000000012349","山东试验机"}
-        };
         public RabbitMQSetting config;
         private ILog log;
 
@@ -51,11 +44,11 @@ namespace DeviceDataInputApp.Controllers
                 //    return;
                 //}
                 //string _nickName = dictionary[deviceNo];
-                if (!map.ContainsKey(deviceNo))
+                if (!ApplicationDeviceData.HaveTheDevice(deviceNo))
                 {
                     return;
                 }
-                string _nickName = map[deviceNo];
+                string _nickName = ApplicationDeviceData.GetDeviceNickName(deviceNo);
                 //*********************************************************
                 JsonSerializerSettings settings = new JsonSerializerSettings
                 {
@@ -66,29 +59,73 @@ namespace DeviceDataInputApp.Controllers
                 deviceRunEntity.setDeviceNo(deviceNo);
                 deviceRunEntity.setNickName(_nickName);
                 string json = JsonConvert.SerializeObject(deviceRunEntity, settings);
-                ConnectionFactory factory = new ConnectionFactory
-                {
-                    UserName = config.UserName,
-                    Password = config.Password,
-                    VirtualHost = config.VirtualHost,
-                    HostName = config.HostName,
-                    Port = config.Port
-                };
-                using (IConnection conn = factory.CreateConnection())
-                {
-                    using (IModel channel = conn.CreateModel())
-                    {
-                        JSON = json;
-                        var messageBodyBytes = Encoding.UTF8.GetBytes(json);
-                    channel.BasicPublish(config.Exchange, config.RoutingKey, true, null, messageBodyBytes);
-
-                    }
-                }
+                ConnectionFactory factory = GetMQFactory();
+                SendMsg(json, factory);
             }
             catch (Exception ex)
             {
                 log.Info(ex.ToString());
             }
+        }
+        private ConnectionFactory GetMQFactory()
+        {
+            return new ConnectionFactory
+            {
+                UserName = config.UserName,
+                Password = config.Password,
+                VirtualHost = config.VirtualHost,
+                HostName = config.HostName,
+                Port = config.Port
+            };
+        }
+        private void SendMsg(byte[] data, ConnectionFactory factory)
+        {
+            using (IConnection conn = factory.CreateConnection())
+            {
+                using (IModel channel = conn.CreateModel())
+                {
+                    //var messageBodyBytes = Encoding.UTF8.GetBytes(json);
+                    channel.BasicPublish(config.Exchange, config.RoutingKey.ByteKey, true, null, data);
+                    //JSON = json;
+                }
+            }
+        }
+        private void SendMsg(string json, ConnectionFactory factory)
+        {
+            using (IConnection conn = factory.CreateConnection())
+            {
+                using (IModel channel = conn.CreateModel())
+                {
+                    var messageBodyBytes = Encoding.UTF8.GetBytes(json);
+                    channel.BasicPublish(config.Exchange, config.RoutingKey.JsonKey, true, null, messageBodyBytes);
+                    JSON = json;
+                }
+            }
+        }
+        [HttpPost]
+        public void DataInput()
+        {
+            //var bytes = ReadBodyData();
+            var bytes = new byte[1024];
+            var length = Request.Body.Read(bytes, 0, bytes.Length);
+
+            if (20 < length)
+            {
+                string deviceNo = Encoding.ASCII.GetString(bytes, 0, 20).ToString().Trim();
+                if (!ApplicationDeviceData.HaveTheDevice(deviceNo))
+                {
+                    return;
+                }
+                string nickName = ApplicationDeviceData.GetDeviceNickName(deviceNo);
+                SendMsg(bytes, GetMQFactory());
+            }
+        }
+
+        private byte[] ReadBodyData()
+        {
+            var bt = new byte[1024];
+            var length = Request.Body.Read(bt, 0, bt.Length);
+            return bt;
         }
     }
 }

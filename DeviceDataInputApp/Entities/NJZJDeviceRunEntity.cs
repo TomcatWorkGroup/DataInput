@@ -4933,14 +4933,14 @@ namespace DeviceDataInputApp.Entities
         }
 
         //蒸汽压力,单位："MPa"
-        public int zhengqiyali;
+        public float zhengqiyali;
 
         /**
          * 获取蒸汽压力
          *
          * @return zhengqiyali
          */
-        public int getZhengQiYaLi()
+        public float getZhengQiYaLi()
         {
             return zhengqiyali;
         }
@@ -4953,18 +4953,18 @@ namespace DeviceDataInputApp.Entities
         [Attributes.Byte(StartIndex = 330, Length = 2)]
         public void setZhengQiYaLi(int data)
         {
-            zhengqiyali = data / 100;
+            zhengqiyali = (float)data / 100;
         }
 
         //给水压力,单位："MPa"
-        public int jishuiyali;
+        public float jishuiyali;
 
         /**
          * 获取给水压力
          *
          * @return jishuiyali
          */
-        public int getJiShuiYaLi()
+        public float getJiShuiYaLi()
         {
             return jishuiyali;
         }
@@ -4977,18 +4977,18 @@ namespace DeviceDataInputApp.Entities
         [Attributes.Byte(StartIndex = 332, Length = 2)]
         public void setJiShuiYaLi(int data)
         {
-            jishuiyali = data / 100;
+            jishuiyali = (float)data / 100;
         }
 
         //出口压力,单位："MPa"
-        public int chukouyali;
+        public float chukouyali;
 
         /**
          * 获取出口压力
          *
          * @return chukouyali
          */
-        public int getChuKouYaLi()
+        public float getChuKouYaLi()
         {
             return chukouyali;
         }
@@ -5001,18 +5001,18 @@ namespace DeviceDataInputApp.Entities
         [Attributes.Byte(StartIndex = 334, Length = 2)]
         public void setChuKouYaLi(int data)
         {
-            chukouyali = data / 100;
+            chukouyali = (float)data / 100;
         }
 
         //入口压力,单位："MPa"
-        public int rukouyali;
+        public float rukouyali;
 
         /**
          * 获取入口压力
          *
          * @return rukouyali
          */
-        public int getRuKouYaLi()
+        public float getRuKouYaLi()
         {
             return rukouyali;
         }
@@ -5025,7 +5025,7 @@ namespace DeviceDataInputApp.Entities
         [Attributes.Byte(StartIndex = 336, Length = 2)]
         public void setRuKouYaLi(int data)
         {
-            rukouyali = data / 100;
+            rukouyali = (float)data / 100;
         }
 
         //炉膛压力,单位："Pa"
@@ -5317,14 +5317,14 @@ namespace DeviceDataInputApp.Entities
         }
 
         //排烟氧含量,单位："%"
-        public int paiyanyanghanliang;
+        public float paiyanyanghanliang;
 
         /**
          * 获取排烟氧含量
          *
          * @return paiyanyanghanliang
          */
-        public int getPaiYanYangHanLiang()
+        public float getPaiYanYangHanLiang()
         {
             return paiyanyanghanliang;
         }
@@ -5337,7 +5337,7 @@ namespace DeviceDataInputApp.Entities
         [Attributes.Byte(StartIndex = 362, Length = 2)]
         public void setPaiYanYangHanLiang(int data)
         {
-            paiyanyanghanliang = data / 10;
+            paiyanyanghanliang = (float)data / 10;
         }
 
         //炉排速度反馈,单位："%"
@@ -5823,14 +5823,14 @@ namespace DeviceDataInputApp.Entities
         }
 
         //报警压力,单位："MPa"
-        public int baojingyaliSetting;
+        public float baojingyaliSetting;
 
         /**
          * 获取报警压力
          *
          * @return baojingyali
          */
-        public int getBaoJingYaLiSetting()
+        public float getBaoJingYaLiSetting()
         {
             return baojingyaliSetting;
         }
@@ -5843,18 +5843,18 @@ namespace DeviceDataInputApp.Entities
         [Attributes.Byte(StartIndex = 562, Length = 2)]
         public void setBaoJingYaLiSetting(int data)
         {
-            baojingyaliSetting = data / 100;
+            baojingyaliSetting = (float)data / 100;
         }
 
         //停炉压力,单位："MPa"
-        public int tingluyaliSetting;
+        public float tingluyaliSetting;
 
         /**
          * 获取停炉压力
          *
          * @return tingluyali
          */
-        public int getTingLuYaLiSetting()
+        public float getTingLuYaLiSetting()
         {
             return tingluyaliSetting;
         }
@@ -5867,18 +5867,18 @@ namespace DeviceDataInputApp.Entities
         [Attributes.Byte(StartIndex = 564, Length = 2)]
         public void setTingLuYaLiSetting(int data)
         {
-            tingluyaliSetting = data / 100;
+            tingluyaliSetting = (float)data / 100;
         }
 
         //目标压力,单位："MPa"
-        public int mubiaoyaliSetting;
+        public float mubiaoyaliSetting;
 
         /**
          * 获取目标压力
          *
          * @return mubiaoyali
          */
-        public int getMuBiaoYaLiSetting()
+        public float getMuBiaoYaLiSetting()
         {
             return mubiaoyaliSetting;
         }
@@ -5891,18 +5891,18 @@ namespace DeviceDataInputApp.Entities
         [Attributes.Byte(StartIndex = 566, Length = 2)]
         public void setMuBiaoYaLiSetting(int data)
         {
-            mubiaoyaliSetting = data / 100;
+            mubiaoyaliSetting = (float)data / 100;
         }
 
         //启炉压力,单位："MPa"
-        public int qiluyaliSetting;
+        public float qiluyaliSetting;
 
         /**
          * 获取启炉压力
          *
          * @return qiluyali
          */
-        public int getQiLuYaLiSetting()
+        public float getQiLuYaLiSetting()
         {
             return qiluyaliSetting;
         }
@@ -5914,16 +5914,16 @@ namespace DeviceDataInputApp.Entities
         [Attributes.Byte(StartIndex = 568, Length = 2)]
         public void setQiLuYaLiSetting(int data)
         {
-            qiluyaliSetting = data / 100;
+            qiluyaliSetting = (float)data / 100;
         }
         //转火回差压力,单位："MPa"
-        public int zhuanhuohuichayaliSetting;
+        public float zhuanhuohuichayaliSetting;
         /**
          * 获取转火回差压力
          *
          * @return zhuanhuohuichayali
          */
-        public int getZhuanHuoHuiChaYaLiSetting()
+        public float getZhuanHuoHuiChaYaLiSetting()
         {
             return zhuanhuohuichayaliSetting;
         }
@@ -5935,17 +5935,17 @@ namespace DeviceDataInputApp.Entities
         [Attributes.Byte(StartIndex = 570, Length = 2)]
         public void setZhuanHuoHuiChaYaLiSetting(int data)
         {
-            zhuanhuohuichayaliSetting = data / 100;
+            zhuanhuohuichayaliSetting = (float)data / 100;
         }
         //启炉回差压力,单位："MPa"
-        public int qiluhuichayaliSetting;
+        public float qiluhuichayaliSetting;
 
         /**
          * 获取启炉回差压力
          *
          * @return qiluhuichayali
          */
-        public int getQiLuHuiChaYaLiSetting()
+        public float getQiLuHuiChaYaLiSetting()
         {
             return qiluhuichayaliSetting;
         }
@@ -5957,7 +5957,7 @@ namespace DeviceDataInputApp.Entities
         [Attributes.Byte(StartIndex = 572, Length = 2)]
         public void setQiLuHuiChaYaLiSetting(int data)
         {
-            qiluhuichayaliSetting = data / 100;
+            qiluhuichayaliSetting = (float)data / 100;
         }
         //前延时,单位："秒"
         public int qianyanshiSetting;
